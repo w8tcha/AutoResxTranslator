@@ -14,7 +14,7 @@ namespace AutoResxTranslator
     using System.Text;
     using System.Web;
 
-    using Newtonsoft.Json;
+    using AutoResxTranslator;
 
     /// <summary>
     /// The Google translate service.
@@ -137,7 +137,7 @@ namespace AutoResxTranslator
 
             try
             {
-                dynamic obj = JsonConvert.DeserializeObject(text);
+                dynamic obj = SimpleJson.DeserializeObject(text);
 
                 var final = string.Empty;
 

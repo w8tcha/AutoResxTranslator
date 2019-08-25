@@ -1,4 +1,4 @@
-//-----------------------------------------------------------------------
+﻿//-----------------------------------------------------------------------
 // <copyright file="SimpleJson.cs" company="The Outercurve Foundation">
 //    Copyright (c) 2011, The Outercurve Foundation.
 //
@@ -17,7 +17,7 @@
 // <website>https://github.com/facebook-csharp-sdk/simple-json</website>
 //-----------------------------------------------------------------------
 
-// VERSION: 0.38.0
+// VERSION:
 
 // NOTE: uncomment the following line to make SimpleJson class internal.
 //#define SIMPLE_JSON_INTERNAL
@@ -66,7 +66,6 @@ using System.Globalization;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
-using AutoResxTranslator.Reflection;
 
 // ReSharper disable LoopCanBeConvertedToQuery
 // ReSharper disable RedundantExplicitArrayCreation
@@ -134,7 +133,7 @@ namespace AutoResxTranslator
         /// </summary>
         public JsonObject()
         {
-            _members = new Dictionary<string, object>();
+            this._members = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -143,27 +142,33 @@ namespace AutoResxTranslator
         /// <param name="comparer">The <see cref="T:System.Collections.Generic.IEqualityComparer`1"/> implementation to use when comparing keys, or null to use the default <see cref="T:System.Collections.Generic.EqualityComparer`1"/> for the type of the key.</param>
         public JsonObject(IEqualityComparer<string> comparer)
         {
-            _members = new Dictionary<string, object>(comparer);
+            this._members = new Dictionary<string, object>(comparer);
         }
 
         /// <summary>
         /// Gets the <see cref="System.Object"/> at the specified index.
         /// </summary>
         /// <value></value>
-        public object this[int index]
-        {
-            get { return GetAtIndex(_members, index); }
-        }
+        public object this[int index] => GetAtIndex(this._members, index);
 
         internal static object GetAtIndex(IDictionary<string, object> obj, int index)
         {
             if (obj == null)
+            {
                 throw new ArgumentNullException("obj");
+            }
+
             if (index >= obj.Count)
+            {
                 throw new ArgumentOutOfRangeException("index");
+            }
             int i = 0;
+
             foreach (KeyValuePair<string, object> o in obj)
+            {
                 if (i++ == index) return o.Value;
+            }
+
             return null;
         }
 
@@ -174,7 +179,7 @@ namespace AutoResxTranslator
         /// <param name="value">The value.</param>
         public void Add(string key, object value)
         {
-            _members.Add(key, value);
+            this._members.Add(key, value);
         }
 
         /// <summary>
@@ -186,17 +191,14 @@ namespace AutoResxTranslator
         /// </returns>
         public bool ContainsKey(string key)
         {
-            return _members.ContainsKey(key);
+            return this._members.ContainsKey(key);
         }
 
         /// <summary>
         /// Gets the keys.
         /// </summary>
         /// <value>The keys.</value>
-        public ICollection<string> Keys
-        {
-            get { return _members.Keys; }
-        }
+        public ICollection<string> Keys => this._members.Keys;
 
         /// <summary>
         /// Removes the specified key.
@@ -205,7 +207,7 @@ namespace AutoResxTranslator
         /// <returns></returns>
         public bool Remove(string key)
         {
-            return _members.Remove(key);
+            return this._members.Remove(key);
         }
 
         /// <summary>
@@ -216,17 +218,14 @@ namespace AutoResxTranslator
         /// <returns></returns>
         public bool TryGetValue(string key, out object value)
         {
-            return _members.TryGetValue(key, out value);
+            return this._members.TryGetValue(key, out value);
         }
 
         /// <summary>
         /// Gets the values.
         /// </summary>
         /// <value>The values.</value>
-        public ICollection<object> Values
-        {
-            get { return _members.Values; }
-        }
+        public ICollection<object> Values => this._members.Values;
 
         /// <summary>
         /// Gets or sets the <see cref="System.Object"/> with the specified key.
@@ -234,8 +233,8 @@ namespace AutoResxTranslator
         /// <value></value>
         public object this[string key]
         {
-            get { return _members[key]; }
-            set { _members[key] = value; }
+            get => this._members[key];
+            set => this._members[key] = value;
         }
 
         /// <summary>
@@ -244,7 +243,7 @@ namespace AutoResxTranslator
         /// <param name="item">The item.</param>
         public void Add(KeyValuePair<string, object> item)
         {
-            _members.Add(item.Key, item.Value);
+            this._members.Add(item.Key, item.Value);
         }
 
         /// <summary>
@@ -252,7 +251,7 @@ namespace AutoResxTranslator
         /// </summary>
         public void Clear()
         {
-            _members.Clear();
+            this._members.Clear();
         }
 
         /// <summary>
@@ -264,7 +263,7 @@ namespace AutoResxTranslator
         /// </returns>
         public bool Contains(KeyValuePair<string, object> item)
         {
-            return _members.ContainsKey(item.Key) && _members[item.Key] == item.Value;
+            return this._members.ContainsKey(item.Key) && this._members[item.Key] == item.Value;
         }
 
         /// <summary>
@@ -274,13 +273,20 @@ namespace AutoResxTranslator
         /// <param name="arrayIndex">Index of the array.</param>
         public void CopyTo(KeyValuePair<string, object>[] array, int arrayIndex)
         {
-            if (array == null) throw new ArgumentNullException("array");
-            int num = Count;
+            if (array == null)
+            {
+                throw new ArgumentNullException("array");
+            }
+
+            int num = this.Count;
+
             foreach (KeyValuePair<string, object> kvp in this)
             {
                 array[arrayIndex++] = kvp;
                 if (--num <= 0)
+                {
                     return;
+                }
             }
         }
 
@@ -288,10 +294,7 @@ namespace AutoResxTranslator
         /// Gets the count.
         /// </summary>
         /// <value>The count.</value>
-        public int Count
-        {
-            get { return _members.Count; }
-        }
+        public int Count => this._members.Count;
 
         /// <summary>
         /// Gets a value indicating whether this instance is read only.
@@ -299,10 +302,7 @@ namespace AutoResxTranslator
         /// <value>
         /// 	<c>true</c> if this instance is read only; otherwise, <c>false</c>.
         /// </value>
-        public bool IsReadOnly
-        {
-            get { return false; }
-        }
+        public bool IsReadOnly => false;
 
         /// <summary>
         /// Removes the specified item.
@@ -311,7 +311,7 @@ namespace AutoResxTranslator
         /// <returns></returns>
         public bool Remove(KeyValuePair<string, object> item)
         {
-            return _members.Remove(item.Key);
+            return this._members.Remove(item.Key);
         }
 
         /// <summary>
@@ -320,7 +320,7 @@ namespace AutoResxTranslator
         /// <returns></returns>
         public IEnumerator<KeyValuePair<string, object>> GetEnumerator()
         {
-            return _members.GetEnumerator();
+            return this._members.GetEnumerator();
         }
 
         /// <summary>
@@ -331,7 +331,7 @@ namespace AutoResxTranslator
         /// </returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return _members.GetEnumerator();
+            return this._members.GetEnumerator();
         }
 
         /// <summary>
@@ -486,6 +486,8 @@ namespace AutoResxTranslator
 
 namespace AutoResxTranslator
 {
+    using AutoResxTranslator.Reflection;
+
     /// <summary>
     /// This class encodes and decodes JSON strings.
     /// Spec. details, see http://www.json.org/
@@ -499,30 +501,44 @@ namespace AutoResxTranslator
 #else
     public
 #endif
- static class SimpleJson
+        static class SimpleJson
     {
         private const int TOKEN_NONE = 0;
+
         private const int TOKEN_CURLY_OPEN = 1;
+
         private const int TOKEN_CURLY_CLOSE = 2;
+
         private const int TOKEN_SQUARED_OPEN = 3;
+
         private const int TOKEN_SQUARED_CLOSE = 4;
+
         private const int TOKEN_COLON = 5;
+
         private const int TOKEN_COMMA = 6;
+
         private const int TOKEN_STRING = 7;
+
         private const int TOKEN_NUMBER = 8;
+
         private const int TOKEN_TRUE = 9;
+
         private const int TOKEN_FALSE = 10;
+
         private const int TOKEN_NULL = 11;
+
         private const int BUILDER_CAPACITY = 2000;
 
         private static readonly char[] EscapeTable;
+
         private static readonly char[] EscapeCharacters = new char[] { '"', '\\', '\b', '\f', '\n', '\r', '\t' };
+
         private static readonly string EscapeCharactersString = new string(EscapeCharacters);
 
         static SimpleJson()
         {
             EscapeTable = new char[93];
-            EscapeTable['"']  = '"';
+            EscapeTable['"'] = '"';
             EscapeTable['\\'] = '\\';
             EscapeTable['\b'] = 'b';
             EscapeTable['\f'] = 'f';
@@ -538,9 +554,10 @@ namespace AutoResxTranslator
         /// <returns>An IList&lt;object>, a IDictionary&lt;string,object>, a double, a string, null, true, or false</returns>
         public static object DeserializeObject(string json)
         {
-            object obj;
-            if (TryDeserializeObject(json, out obj))
+            if (TryDeserializeObject(json, out var obj))
+            {
                 return obj;
+            }
             throw new SerializationException("Invalid JSON string");
         }
 
@@ -556,7 +573,10 @@ namespace AutoResxTranslator
         /// <returns>
         /// Returns true if successfull otherwise false.
         /// </returns>
-        [SuppressMessage("Microsoft.Design", "CA1007:UseGenericsWhereAppropriate", Justification="Need to support .NET 2")]
+        [SuppressMessage(
+            "Microsoft.Design",
+            "CA1007:UseGenericsWhereAppropriate",
+            Justification = "Need to support .NET 2")]
         public static bool TryDeserializeObject(string json, out object obj)
         {
             bool success = true;
@@ -567,7 +587,9 @@ namespace AutoResxTranslator
                 obj = ParseValue(charArray, ref index, ref success);
             }
             else
+            {
                 obj = null;
+            }
 
             return success;
         }
@@ -605,7 +627,7 @@ namespace AutoResxTranslator
         {
             StringBuilder builder = new StringBuilder(BUILDER_CAPACITY);
             bool success = SerializeValue(jsonSerializerStrategy, json, builder);
-            return (success ? builder.ToString() : null);
+            return success ? builder.ToString() : null;
         }
 
         public static string SerializeObject(object json)
@@ -616,12 +638,14 @@ namespace AutoResxTranslator
         public static string EscapeToJavascriptString(string jsonString)
         {
             if (string.IsNullOrEmpty(jsonString))
+            {
                 return jsonString;
+            }
 
             StringBuilder sb = new StringBuilder();
             char c;
 
-            for (int i = 0; i < jsonString.Length; )
+            for (int i = 0; i < jsonString.Length;)
             {
                 c = jsonString[i++];
 
@@ -668,6 +692,7 @@ namespace AutoResxTranslator
                     sb.Append(c);
                 }
             }
+
             return sb.ToString();
         }
 
@@ -704,6 +729,7 @@ namespace AutoResxTranslator
                         success = false;
                         return null;
                     }
+
                     // :
                     token = NextToken(json, ref index);
                     if (token != TOKEN_COLON)
@@ -711,6 +737,7 @@ namespace AutoResxTranslator
                         success = false;
                         return null;
                     }
+
                     // value
                     object value = ParseValue(json, ref index, ref success);
                     if (!success)
@@ -718,9 +745,11 @@ namespace AutoResxTranslator
                         success = false;
                         return null;
                     }
+
                     table[name] = value;
                 }
             }
+
             return table;
         }
 
@@ -755,6 +784,7 @@ namespace AutoResxTranslator
                     array.Add(value);
                 }
             }
+
             return array;
         }
 
@@ -782,6 +812,7 @@ namespace AutoResxTranslator
                 case TOKEN_NONE:
                     break;
             }
+
             success = false;
             return null;
         }
@@ -834,21 +865,27 @@ namespace AutoResxTranslator
                         if (remainingLength >= 4)
                         {
                             // parse the 32 bit hex into an integer codepoint
-                            uint codePoint;
-                            if (!(success = UInt32.TryParse(new string(json, index, 4), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out codePoint)))
+                            if (!(success = UInt32.TryParse(
+                                      new string(json, index, 4),
+                                      NumberStyles.HexNumber,
+                                      CultureInfo.InvariantCulture,
+                                      out var codePoint)))
                                 return "";
 
                             // convert the integer codepoint to a unicode char and add to string
-                            if (0xD800 <= codePoint && codePoint <= 0xDBFF)  // if high surrogate
+                            if (0xD800 <= codePoint && codePoint <= 0xDBFF) // if high surrogate
                             {
                                 index += 4; // skip 4 chars
                                 remainingLength = json.Length - index;
                                 if (remainingLength >= 6)
                                 {
-                                    uint lowCodePoint;
-                                    if (new string(json, index, 2) == "\\u" && UInt32.TryParse(new string(json, index + 2, 4), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out lowCodePoint))
+                                    if (new string(json, index, 2) == "\\u" && UInt32.TryParse(
+                                            new string(json, index + 2, 4),
+                                            NumberStyles.HexNumber,
+                                            CultureInfo.InvariantCulture,
+                                            out var lowCodePoint))
                                     {
-                                        if (0xDC00 <= lowCodePoint && lowCodePoint <= 0xDFFF)    // if low surrogate
+                                        if (0xDC00 <= lowCodePoint && lowCodePoint <= 0xDFFF) // if low surrogate
                                         {
                                             s.Append((char)codePoint);
                                             s.Append((char)lowCodePoint);
@@ -857,9 +894,11 @@ namespace AutoResxTranslator
                                         }
                                     }
                                 }
-                                success = false;    // invalid surrogate pair
+
+                                success = false; // invalid surrogate pair
                                 return "";
                             }
+
                             s.Append(ConvertFromUtf32((int)codePoint));
                             // skip 4 chars
                             index += 4;
@@ -871,11 +910,13 @@ namespace AutoResxTranslator
                 else
                     s.Append(c);
             }
+
             if (!complete)
             {
                 success = false;
                 return null;
             }
+
             return s.ToString();
         }
 
@@ -896,21 +937,29 @@ namespace AutoResxTranslator
         {
             EatWhitespace(json, ref index);
             int lastIndex = GetLastIndexOfNumber(json, index);
-            int charLength = (lastIndex - index) + 1;
+            int charLength = lastIndex - index + 1;
             object returnNumber;
             string str = new string(json, index, charLength);
-            if (str.IndexOf(".", StringComparison.OrdinalIgnoreCase) != -1 || str.IndexOf("e", StringComparison.OrdinalIgnoreCase) != -1)
+            if (str.IndexOf(".", StringComparison.OrdinalIgnoreCase) != -1
+                || str.IndexOf("e", StringComparison.OrdinalIgnoreCase) != -1)
             {
-                double number;
-                success = double.TryParse(new string(json, index, charLength), NumberStyles.Any, CultureInfo.InvariantCulture, out number);
+                success = double.TryParse(
+                    new string(json, index, charLength),
+                    NumberStyles.Any,
+                    CultureInfo.InvariantCulture,
+                    out var number);
                 returnNumber = number;
             }
             else
             {
-                long number;
-                success = long.TryParse(new string(json, index, charLength), NumberStyles.Any, CultureInfo.InvariantCulture, out number);
+                success = long.TryParse(
+                    new string(json, index, charLength),
+                    NumberStyles.Any,
+                    CultureInfo.InvariantCulture,
+                    out var number);
                 returnNumber = number;
             }
+
             index = lastIndex + 1;
             return returnNumber;
         }
@@ -919,14 +968,16 @@ namespace AutoResxTranslator
         {
             int lastIndex;
             for (lastIndex = index; lastIndex < json.Length; lastIndex++)
-                if ("0123456789+-.eE".IndexOf(json[lastIndex]) == -1) break;
+                if ("0123456789+-.eE".IndexOf(json[lastIndex]) == -1)
+                    break;
             return lastIndex - 1;
         }
 
         static void EatWhitespace(char[] json, ref int index)
         {
             for (; index < json.Length; index++)
-                if (" \t\n\r\b\f".IndexOf(json[index]) == -1) break;
+                if (" \t\n\r\b\f".IndexOf(json[index]) == -1)
+                    break;
         }
 
         static int LookAhead(char[] json, int index)
@@ -972,17 +1023,20 @@ namespace AutoResxTranslator
                 case ':':
                     return TOKEN_COLON;
             }
+
             index--;
             int remainingLength = json.Length - index;
             // false
             if (remainingLength >= 5)
             {
-                if (json[index] == 'f' && json[index + 1] == 'a' && json[index + 2] == 'l' && json[index + 3] == 's' && json[index + 4] == 'e')
+                if (json[index] == 'f' && json[index + 1] == 'a' && json[index + 2] == 'l' && json[index + 3] == 's'
+                    && json[index + 4] == 'e')
                 {
                     index += 5;
                     return TOKEN_FALSE;
                 }
             }
+
             // true
             if (remainingLength >= 4)
             {
@@ -992,6 +1046,7 @@ namespace AutoResxTranslator
                     return TOKEN_TRUE;
                 }
             }
+
             // null
             if (remainingLength >= 4)
             {
@@ -1001,33 +1056,34 @@ namespace AutoResxTranslator
                     return TOKEN_NULL;
                 }
             }
+
             return TOKEN_NONE;
         }
 
         static bool SerializeValue(IJsonSerializerStrategy jsonSerializerStrategy, object value, StringBuilder builder)
         {
             bool success = true;
-            string stringValue = value as string;
-            if (stringValue != null)
+            if (value is string stringValue)
                 success = SerializeString(stringValue, builder);
             else
             {
-                IDictionary<string, object> dict = value as IDictionary<string, object>;
-                if (dict != null)
+                if (value is IDictionary<string, object> dict)
                 {
                     success = SerializeObject(jsonSerializerStrategy, dict.Keys, dict.Values, builder);
                 }
                 else
                 {
-                    IDictionary<string, string> stringDictionary = value as IDictionary<string, string>;
-                    if (stringDictionary != null)
+                    if (value is IDictionary<string, string> stringDictionary)
                     {
-                        success = SerializeObject(jsonSerializerStrategy, stringDictionary.Keys, stringDictionary.Values, builder);
+                        success = SerializeObject(
+                            jsonSerializerStrategy,
+                            stringDictionary.Keys,
+                            stringDictionary.Values,
+                            builder);
                     }
                     else
                     {
-                        IEnumerable enumerableValue = value as IEnumerable;
-                        if (enumerableValue != null)
+                        if (value is IEnumerable enumerableValue)
                             success = SerializeArray(jsonSerializerStrategy, enumerableValue, builder);
                         else if (IsNumeric(value))
                             success = SerializeNumber(value, builder);
@@ -1037,18 +1093,24 @@ namespace AutoResxTranslator
                             builder.Append("null");
                         else
                         {
-                            object serializedObject;
-                            success = jsonSerializerStrategy.TrySerializeNonPrimitiveObject(value, out serializedObject);
+                            success = jsonSerializerStrategy.TrySerializeNonPrimitiveObject(
+                                value,
+                                out var serializedObject);
                             if (success)
                                 SerializeValue(jsonSerializerStrategy, serializedObject, builder);
                         }
                     }
                 }
             }
+
             return success;
         }
 
-        static bool SerializeObject(IJsonSerializerStrategy jsonSerializerStrategy, IEnumerable keys, IEnumerable values, StringBuilder builder)
+        static bool SerializeObject(
+            IJsonSerializerStrategy jsonSerializerStrategy,
+            IEnumerable keys,
+            IEnumerable values,
+            StringBuilder builder)
         {
             builder.Append("{");
             IEnumerator ke = keys.GetEnumerator();
@@ -1060,21 +1122,23 @@ namespace AutoResxTranslator
                 object value = ve.Current;
                 if (!first)
                     builder.Append(",");
-                string stringKey = key as string;
-                if (stringKey != null)
+                if (key is string stringKey)
                     SerializeString(stringKey, builder);
-                else
-                    if (!SerializeValue(jsonSerializerStrategy, value, builder)) return false;
+                else if (!SerializeValue(jsonSerializerStrategy, value, builder)) return false;
                 builder.Append(":");
                 if (!SerializeValue(jsonSerializerStrategy, value, builder))
                     return false;
                 first = false;
             }
+
             builder.Append("}");
             return true;
         }
 
-        static bool SerializeArray(IJsonSerializerStrategy jsonSerializerStrategy, IEnumerable anArray, StringBuilder builder)
+        static bool SerializeArray(
+            IJsonSerializerStrategy jsonSerializerStrategy,
+            IEnumerable anArray,
+            StringBuilder builder)
         {
             builder.Append("[");
             bool first = true;
@@ -1086,6 +1150,7 @@ namespace AutoResxTranslator
                     return false;
                 first = false;
             }
+
             builder.Append("]");
             return true;
         }
@@ -1154,7 +1219,8 @@ namespace AutoResxTranslator
             else if (number is float)
                 builder.Append(((float)number).ToString(CultureInfo.InvariantCulture));
             else
-                builder.Append(Convert.ToDouble(number, CultureInfo.InvariantCulture).ToString("r", CultureInfo.InvariantCulture));
+                builder.Append(
+                    Convert.ToDouble(number, CultureInfo.InvariantCulture).ToString("r", CultureInfo.InvariantCulture));
             return true;
         }
 
@@ -1179,18 +1245,18 @@ namespace AutoResxTranslator
         }
 
         private static IJsonSerializerStrategy _currentJsonSerializerStrategy;
+
         public static IJsonSerializerStrategy CurrentJsonSerializerStrategy
         {
             get
             {
-                return _currentJsonSerializerStrategy ??
-                    (_currentJsonSerializerStrategy =
+                return _currentJsonSerializerStrategy ?? (_currentJsonSerializerStrategy =
 #if SIMPLE_JSON_DATACONTRACT
  DataContractJsonSerializerStrategy
 #else
- PocoJsonSerializerStrategy
+                                                              PocoJsonSerializerStrategy
 #endif
-);
+                                                         );
             }
             set
             {
@@ -1199,14 +1265,10 @@ namespace AutoResxTranslator
         }
 
         private static PocoJsonSerializerStrategy _pocoJsonSerializerStrategy;
+
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public static PocoJsonSerializerStrategy PocoJsonSerializerStrategy
-        {
-            get
-            {
-                return _pocoJsonSerializerStrategy ?? (_pocoJsonSerializerStrategy = new PocoJsonSerializerStrategy());
-            }
-        }
+        public static PocoJsonSerializerStrategy PocoJsonSerializerStrategy =>
+            _pocoJsonSerializerStrategy ?? (_pocoJsonSerializerStrategy = new PocoJsonSerializerStrategy());
 
 #if SIMPLE_JSON_DATACONTRACT
 
@@ -1216,23 +1278,28 @@ namespace AutoResxTranslator
         {
             get
             {
-                return _dataContractJsonSerializerStrategy ?? (_dataContractJsonSerializerStrategy = new DataContractJsonSerializerStrategy());
+                return _dataContractJsonSerializerStrategy ?? (_dataContractJsonSerializerStrategy =
+ new DataContractJsonSerializerStrategy());
             }
         }
 
 #endif
     }
-    
+
     [GeneratedCode("simple-json", "1.0.0")]
 #if SIMPLE_JSON_INTERNAL
     internal
 #else
     public
 #endif
- interface IJsonSerializerStrategy
+        interface IJsonSerializerStrategy
     {
-        [SuppressMessage("Microsoft.Design", "CA1007:UseGenericsWhereAppropriate", Justification="Need to support .NET 2")]
+        [SuppressMessage(
+            "Microsoft.Design",
+            "CA1007:UseGenericsWhereAppropriate",
+            Justification = "Need to support .NET 2")]
         bool TrySerializeNonPrimitiveObject(object input, out object output);
+
         object DeserializeObject(object value, Type type);
     }
 
@@ -1242,27 +1309,35 @@ namespace AutoResxTranslator
 #else
     public
 #endif
- class PocoJsonSerializerStrategy : IJsonSerializerStrategy
+        class PocoJsonSerializerStrategy : IJsonSerializerStrategy
     {
         internal IDictionary<Type, ReflectionUtils.ConstructorDelegate> ConstructorCache;
+
         internal IDictionary<Type, IDictionary<string, ReflectionUtils.GetDelegate>> GetCache;
+
         internal IDictionary<Type, IDictionary<string, KeyValuePair<Type, ReflectionUtils.SetDelegate>>> SetCache;
 
         internal static readonly Type[] EmptyTypes = new Type[0];
+
         internal static readonly Type[] ArrayConstructorParameterTypes = new Type[] { typeof(int) };
 
         private static readonly string[] Iso8601Format = new string[]
                                                              {
                                                                  @"yyyy-MM-dd\THH:mm:ss.FFFFFFF\Z",
-                                                                 @"yyyy-MM-dd\THH:mm:ss\Z",
-                                                                 @"yyyy-MM-dd\THH:mm:ssK"
+                                                                 @"yyyy-MM-dd\THH:mm:ss\Z", @"yyyy-MM-dd\THH:mm:ssK"
                                                              };
 
         public PocoJsonSerializerStrategy()
         {
-            ConstructorCache = new ReflectionUtils.ThreadSafeDictionary<Type, ReflectionUtils.ConstructorDelegate>(ContructorDelegateFactory);
-            GetCache = new ReflectionUtils.ThreadSafeDictionary<Type, IDictionary<string, ReflectionUtils.GetDelegate>>(GetterValueFactory);
-            SetCache = new ReflectionUtils.ThreadSafeDictionary<Type, IDictionary<string, KeyValuePair<Type, ReflectionUtils.SetDelegate>>>(SetterValueFactory);
+            this.ConstructorCache =
+                new ReflectionUtils.ThreadSafeDictionary<Type, ReflectionUtils.ConstructorDelegate>(
+                    this.ContructorDelegateFactory);
+            this.GetCache =
+                new ReflectionUtils.ThreadSafeDictionary<Type, IDictionary<string, ReflectionUtils.GetDelegate>>(
+                    this.GetterValueFactory);
+            this.SetCache =
+                new ReflectionUtils.ThreadSafeDictionary<Type,
+                    IDictionary<string, KeyValuePair<Type, ReflectionUtils.SetDelegate>>>(this.SetterValueFactory);
         }
 
         protected virtual string MapClrMemberNameToJsonFieldName(string clrPropertyName)
@@ -1277,7 +1352,8 @@ namespace AutoResxTranslator
 
         internal virtual IDictionary<string, ReflectionUtils.GetDelegate> GetterValueFactory(Type type)
         {
-            IDictionary<string, ReflectionUtils.GetDelegate> result = new Dictionary<string, ReflectionUtils.GetDelegate>();
+            IDictionary<string, ReflectionUtils.GetDelegate> result =
+                new Dictionary<string, ReflectionUtils.GetDelegate>();
             foreach (PropertyInfo propertyInfo in ReflectionUtils.GetProperties(type))
             {
                 if (propertyInfo.CanRead)
@@ -1285,21 +1361,26 @@ namespace AutoResxTranslator
                     MethodInfo getMethod = ReflectionUtils.GetGetterMethodInfo(propertyInfo);
                     if (getMethod.IsStatic || !getMethod.IsPublic)
                         continue;
-                    result[MapClrMemberNameToJsonFieldName(propertyInfo.Name)] = ReflectionUtils.GetGetMethod(propertyInfo);
+                    result[this.MapClrMemberNameToJsonFieldName(propertyInfo.Name)] =
+                        ReflectionUtils.GetGetMethod(propertyInfo);
                 }
             }
+
             foreach (FieldInfo fieldInfo in ReflectionUtils.GetFields(type))
             {
                 if (fieldInfo.IsStatic || !fieldInfo.IsPublic)
                     continue;
-                result[MapClrMemberNameToJsonFieldName(fieldInfo.Name)] = ReflectionUtils.GetGetMethod(fieldInfo);
+                result[this.MapClrMemberNameToJsonFieldName(fieldInfo.Name)] = ReflectionUtils.GetGetMethod(fieldInfo);
             }
+
             return result;
         }
 
-        internal virtual IDictionary<string, KeyValuePair<Type, ReflectionUtils.SetDelegate>> SetterValueFactory(Type type)
+        internal virtual IDictionary<string, KeyValuePair<Type, ReflectionUtils.SetDelegate>> SetterValueFactory(
+            Type type)
         {
-            IDictionary<string, KeyValuePair<Type, ReflectionUtils.SetDelegate>> result = new Dictionary<string, KeyValuePair<Type, ReflectionUtils.SetDelegate>>();
+            IDictionary<string, KeyValuePair<Type, ReflectionUtils.SetDelegate>> result =
+                new Dictionary<string, KeyValuePair<Type, ReflectionUtils.SetDelegate>>();
             foreach (PropertyInfo propertyInfo in ReflectionUtils.GetProperties(type))
             {
                 if (propertyInfo.CanWrite)
@@ -1307,93 +1388,142 @@ namespace AutoResxTranslator
                     MethodInfo setMethod = ReflectionUtils.GetSetterMethodInfo(propertyInfo);
                     if (setMethod.IsStatic || !setMethod.IsPublic)
                         continue;
-                    result[MapClrMemberNameToJsonFieldName(propertyInfo.Name)] = new KeyValuePair<Type, ReflectionUtils.SetDelegate>(propertyInfo.PropertyType, ReflectionUtils.GetSetMethod(propertyInfo));
+                    result[this.MapClrMemberNameToJsonFieldName(propertyInfo.Name)] =
+                        new KeyValuePair<Type, ReflectionUtils.SetDelegate>(
+                            propertyInfo.PropertyType,
+                            ReflectionUtils.GetSetMethod(propertyInfo));
                 }
             }
+
             foreach (FieldInfo fieldInfo in ReflectionUtils.GetFields(type))
             {
                 if (fieldInfo.IsInitOnly || fieldInfo.IsStatic || !fieldInfo.IsPublic)
                     continue;
-                result[MapClrMemberNameToJsonFieldName(fieldInfo.Name)] = new KeyValuePair<Type, ReflectionUtils.SetDelegate>(fieldInfo.FieldType, ReflectionUtils.GetSetMethod(fieldInfo));
+                result[this.MapClrMemberNameToJsonFieldName(fieldInfo.Name)] =
+                    new KeyValuePair<Type, ReflectionUtils.SetDelegate>(
+                        fieldInfo.FieldType,
+                        ReflectionUtils.GetSetMethod(fieldInfo));
             }
+
             return result;
         }
 
         public virtual bool TrySerializeNonPrimitiveObject(object input, out object output)
         {
-            return TrySerializeKnownTypes(input, out output) || TrySerializeUnknownTypes(input, out output);
+            return this.TrySerializeKnownTypes(input, out output) || this.TrySerializeUnknownTypes(input, out output);
         }
 
         [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity")]
         public virtual object DeserializeObject(object value, Type type)
         {
-            if (type == null) throw new ArgumentNullException("type");
+            if (type == null)
+            {
+                throw new ArgumentNullException("type");
+            }
+
             string str = value as string;
 
-            if (type == typeof (Guid) && string.IsNullOrEmpty(str))
+            if (type == typeof(Guid) && string.IsNullOrEmpty(str))
+            {
                 return default(Guid);
+            }
 
             if (value == null)
+            {
                 return null;
-            
+            }
+
             object obj = null;
 
             if (str != null)
             {
                 if (str.Length != 0) // We know it can't be null now.
                 {
-                    if (type == typeof(DateTime) || (ReflectionUtils.IsNullableType(type) && Nullable.GetUnderlyingType(type) == typeof(DateTime)))
-                        return DateTime.ParseExact(str, Iso8601Format, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal);
-                    if (type == typeof(DateTimeOffset) || (ReflectionUtils.IsNullableType(type) && Nullable.GetUnderlyingType(type) == typeof(DateTimeOffset)))
-                        return DateTimeOffset.ParseExact(str, Iso8601Format, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal);
-                    if (type == typeof(Guid) || (ReflectionUtils.IsNullableType(type) && Nullable.GetUnderlyingType(type) == typeof(Guid)))
+                    if (type == typeof(DateTime) || ReflectionUtils.IsNullableType(type)
+                        && Nullable.GetUnderlyingType(type) == typeof(DateTime))
+                    {
+                        return DateTime.ParseExact(
+                            str,
+                            Iso8601Format,
+                            CultureInfo.InvariantCulture,
+                            DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal);
+                    }
+
+                    if (type == typeof(DateTimeOffset) || ReflectionUtils.IsNullableType(type)
+                        && Nullable.GetUnderlyingType(type) == typeof(DateTimeOffset))
+                    {
+                        return DateTimeOffset.ParseExact(
+                            str,
+                            Iso8601Format,
+                            CultureInfo.InvariantCulture,
+                            DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal);
+                    }
+
+                    if (type == typeof(Guid) || ReflectionUtils.IsNullableType(type)
+                        && Nullable.GetUnderlyingType(type) == typeof(Guid))
+                    {
                         return new Guid(str);
+                    }
+
                     if (type == typeof(Uri))
                     {
-                        bool isValid =  Uri.IsWellFormedUriString(str, UriKind.RelativeOrAbsolute);
+                        bool isValid = Uri.IsWellFormedUriString(str, UriKind.RelativeOrAbsolute);
 
-                        Uri result;
-                        if (isValid && Uri.TryCreate(str, UriKind.RelativeOrAbsolute, out result))
+                        if (isValid && Uri.TryCreate(str, UriKind.RelativeOrAbsolute, out var result))
+                        {
                             return result;
+                        }
 
-												return null;
+                        return null;
                     }
-                  
-									if (type == typeof(string))  
-										return str;
 
-									return Convert.ChangeType(str, type, CultureInfo.InvariantCulture);
+                    return type == typeof(string) ? str : Convert.ChangeType(str, type, CultureInfo.InvariantCulture);
                 }
                 else
                 {
                     if (type == typeof(Guid))
+                    {
                         obj = default(Guid);
+                    }
                     else if (ReflectionUtils.IsNullableType(type) && Nullable.GetUnderlyingType(type) == typeof(Guid))
+                    {
                         obj = null;
+                    }
                     else
+                    {
                         obj = str;
+                    }
                 }
+
                 // Empty string case
                 if (!ReflectionUtils.IsNullableType(type) && Nullable.GetUnderlyingType(type) == typeof(Guid))
+                {
                     return str;
+                }
             }
             else if (value is bool)
+            {
                 return value;
-            
+            }
+
             bool valueIsLong = value is long;
             bool valueIsDouble = value is double;
-            if ((valueIsLong && type == typeof(long)) || (valueIsDouble && type == typeof(double)))
-                return value;
-            if ((valueIsDouble && type != typeof(double)) || (valueIsLong && type != typeof(long)))
+            if (valueIsLong && type == typeof(long) || valueIsDouble && type == typeof(double))
             {
-                obj = type == typeof(int) || type == typeof(long) || type == typeof(double) || type == typeof(float) || type == typeof(bool) || type == typeof(decimal) || type == typeof(byte) || type == typeof(short)
-                            ? Convert.ChangeType(value, type, CultureInfo.InvariantCulture)
-                            : value;
+                return value;
+            }
+
+            if (valueIsDouble && type != typeof(double) || valueIsLong && type != typeof(long))
+            {
+                obj = type == typeof(int) || type == typeof(long) || type == typeof(double) || type == typeof(float)
+                      || type == typeof(bool) || type == typeof(decimal) || type == typeof(byte)
+                      || type == typeof(short)
+                          ? Convert.ChangeType(value, type, CultureInfo.InvariantCulture)
+                          : value;
             }
             else
             {
-                IDictionary<string, object> objects = value as IDictionary<string, object>;
-                if (objects != null)
+                if (value is IDictionary<string, object> objects)
                 {
                     IDictionary<string, object> jsonObject = objects;
 
@@ -1406,26 +1536,30 @@ namespace AutoResxTranslator
 
                         Type genericType = typeof(Dictionary<,>).MakeGenericType(keyType, valueType);
 
-                        IDictionary dict = (IDictionary)ConstructorCache[genericType]();
+                        IDictionary dict = (IDictionary)this.ConstructorCache[genericType]();
 
                         foreach (KeyValuePair<string, object> kvp in jsonObject)
-                            dict.Add(kvp.Key, DeserializeObject(kvp.Value, valueType));
+                        {
+                            dict.Add(kvp.Key, this.DeserializeObject(kvp.Value, valueType));
+                        }
 
                         obj = dict;
                     }
                     else
                     {
                         if (type == typeof(object))
+                        {
                             obj = value;
+                        }
                         else
                         {
-                            obj = ConstructorCache[type]();
-                            foreach (KeyValuePair<string, KeyValuePair<Type, ReflectionUtils.SetDelegate>> setter in SetCache[type])
+                            obj = this.ConstructorCache[type]();
+                            foreach (KeyValuePair<string, KeyValuePair<Type, ReflectionUtils.SetDelegate>> setter in
+                                this.SetCache[type])
                             {
-                                object jsonValue;
-                                if (jsonObject.TryGetValue(setter.Key, out jsonValue))
+                                if (jsonObject.TryGetValue(setter.Key, out var jsonValue))
                                 {
-                                    jsonValue = DeserializeObject(jsonValue, setter.Value.Key);
+                                    jsonValue = this.DeserializeObject(jsonValue, setter.Value.Key);
                                     setter.Value.Value(obj, jsonValue);
                                 }
                             }
@@ -1434,34 +1568,43 @@ namespace AutoResxTranslator
                 }
                 else
                 {
-                    IList<object> valueAsList = value as IList<object>;
-                    if (valueAsList != null)
+                    if (!(value is IList<object> valueAsList))
                     {
-                        IList<object> jsonObject = valueAsList;
-                        IList list = null;
-
-                        if (type.IsArray)
-                        {
-                            list = (IList)ConstructorCache[type](jsonObject.Count);
-                            int i = 0;
-                            foreach (object o in jsonObject)
-                                list[i++] = DeserializeObject(o, type.GetElementType());
-                        }
-                        else if (ReflectionUtils.IsTypeGenericeCollectionInterface(type) || ReflectionUtils.IsAssignableFrom(typeof(IList), type))
-                        {
-                            Type innerType = ReflectionUtils.GetGenericListElementType(type);
-                            list = (IList)(ConstructorCache[type] ?? ConstructorCache[typeof(List<>).MakeGenericType(innerType)])(jsonObject.Count);
-                            foreach (object o in jsonObject)
-                                list.Add(DeserializeObject(o, innerType));
-                        }
-                        obj = list;
+                        return obj;
                     }
+
+                    IList<object> jsonObject = valueAsList;
+                    IList list = null;
+
+                    if (type.IsArray)
+                    {
+                        list = (IList)this.ConstructorCache[type](jsonObject.Count);
+                        int i = 0;
+                        foreach (object o in jsonObject)
+                        {
+                            list[i++] = this.DeserializeObject(o, type.GetElementType());
+                        }
+                    }
+                    else if (ReflectionUtils.IsTypeGenericeCollectionInterface(type)
+                             || ReflectionUtils.IsAssignableFrom(typeof(IList), type))
+                    {
+                        Type innerType = ReflectionUtils.GetGenericListElementType(type);
+                        list = (IList)(this.ConstructorCache[type]
+                                       ?? this.ConstructorCache[typeof(List<>).MakeGenericType(innerType)])(
+                            jsonObject.Count);
+                        foreach (object o in jsonObject)
+                        {
+                            list.Add(this.DeserializeObject(o, innerType));
+                        }
+                    }
+
+                    obj = list;
                 }
+
                 return obj;
             }
-            if (ReflectionUtils.IsNullableType(type))
-                return ReflectionUtils.ToNullableType(obj, type);
-            return obj;
+
+            return ReflectionUtils.IsNullableType(type) ? ReflectionUtils.ToNullableType(obj, type) : obj;
         }
 
         protected virtual object SerializeEnum(Enum p)
@@ -1469,46 +1612,63 @@ namespace AutoResxTranslator
             return Convert.ToDouble(p, CultureInfo.InvariantCulture);
         }
 
-        [SuppressMessage("Microsoft.Design", "CA1007:UseGenericsWhereAppropriate", Justification="Need to support .NET 2")]
+        [SuppressMessage(
+            "Microsoft.Design",
+            "CA1007:UseGenericsWhereAppropriate",
+            Justification = "Need to support .NET 2")]
         protected virtual bool TrySerializeKnownTypes(object input, out object output)
         {
             bool returnValue = true;
-            if (input is DateTime)
-                output = ((DateTime)input).ToUniversalTime().ToString(Iso8601Format[0], CultureInfo.InvariantCulture);
-            else if (input is DateTimeOffset)
-                output = ((DateTimeOffset)input).ToUniversalTime().ToString(Iso8601Format[0], CultureInfo.InvariantCulture);
-            else if (input is Guid)
-                output = ((Guid)input).ToString("D");
-            else if (input is Uri)
-                output = input.ToString();
-            else
+            switch (input)
             {
-                Enum inputEnum = input as Enum;
-                if (inputEnum != null)
-                    output = SerializeEnum(inputEnum);
-                else
-                {
+                case DateTime time:
+                    output = time.ToUniversalTime().ToString(Iso8601Format[0], CultureInfo.InvariantCulture);
+                    break;
+                case DateTimeOffset offset:
+                    output = offset.ToUniversalTime().ToString(Iso8601Format[0], CultureInfo.InvariantCulture);
+                    break;
+                case Guid guid:
+                    output = guid.ToString("D");
+                    break;
+                case Uri _:
+                    output = input.ToString();
+                    break;
+                case Enum inputEnum:
+                    output = this.SerializeEnum(inputEnum);
+                    break;
+                default:
                     returnValue = false;
                     output = null;
-                }
+                    break;
             }
+
             return returnValue;
         }
-        [SuppressMessage("Microsoft.Design", "CA1007:UseGenericsWhereAppropriate", Justification="Need to support .NET 2")]
+
+        [SuppressMessage(
+            "Microsoft.Design",
+            "CA1007:UseGenericsWhereAppropriate",
+            Justification = "Need to support .NET 2")]
         protected virtual bool TrySerializeUnknownTypes(object input, out object output)
         {
             if (input == null) throw new ArgumentNullException("input");
             output = null;
             Type type = input.GetType();
             if (type.FullName == null)
+            {
                 return false;
+            }
+
             IDictionary<string, object> obj = new JsonObject();
-            IDictionary<string, ReflectionUtils.GetDelegate> getters = GetCache[type];
+            IDictionary<string, ReflectionUtils.GetDelegate> getters = this.GetCache[type];
             foreach (KeyValuePair<string, ReflectionUtils.GetDelegate> getter in getters)
             {
                 if (getter.Value != null)
-                    obj.Add(MapClrMemberNameToJsonFieldName(getter.Key), getter.Value(input));
+                {
+                    obj.Add(this.MapClrMemberNameToJsonFieldName(getter.Key), getter.Value(input));
+                }
             }
+
             output = obj;
             return true;
         }
@@ -1525,8 +1685,10 @@ namespace AutoResxTranslator
     {
         public DataContractJsonSerializerStrategy()
         {
-            GetCache = new ReflectionUtils.ThreadSafeDictionary<Type, IDictionary<string, ReflectionUtils.GetDelegate>>(GetterValueFactory);
-            SetCache = new ReflectionUtils.ThreadSafeDictionary<Type, IDictionary<string, KeyValuePair<Type, ReflectionUtils.SetDelegate>>>(SetterValueFactory);
+            GetCache =
+ new ReflectionUtils.ThreadSafeDictionary<Type, IDictionary<string, ReflectionUtils.GetDelegate>>(GetterValueFactory);
+            SetCache =
+ new ReflectionUtils.ThreadSafeDictionary<Type, IDictionary<string, KeyValuePair<Type, ReflectionUtils.SetDelegate>>>(SetterValueFactory);
         }
 
         internal override IDictionary<string, ReflectionUtils.GetDelegate> GetterValueFactory(Type type)
@@ -1535,7 +1697,8 @@ namespace AutoResxTranslator
             if (!hasDataContract)
                 return base.GetterValueFactory(type);
             string jsonKey;
-            IDictionary<string, ReflectionUtils.GetDelegate> result = new Dictionary<string, ReflectionUtils.GetDelegate>();
+            IDictionary<string, ReflectionUtils.GetDelegate> result =
+ new Dictionary<string, ReflectionUtils.GetDelegate>();
             foreach (PropertyInfo propertyInfo in ReflectionUtils.GetProperties(type))
             {
                 if (propertyInfo.CanRead)
@@ -1559,20 +1722,23 @@ namespace AutoResxTranslator
             if (!hasDataContract)
                 return base.SetterValueFactory(type);
             string jsonKey;
-            IDictionary<string, KeyValuePair<Type, ReflectionUtils.SetDelegate>> result = new Dictionary<string, KeyValuePair<Type, ReflectionUtils.SetDelegate>>();
+            IDictionary<string, KeyValuePair<Type, ReflectionUtils.SetDelegate>> result =
+ new Dictionary<string, KeyValuePair<Type, ReflectionUtils.SetDelegate>>();
             foreach (PropertyInfo propertyInfo in ReflectionUtils.GetProperties(type))
             {
                 if (propertyInfo.CanWrite)
                 {
                     MethodInfo setMethod = ReflectionUtils.GetSetterMethodInfo(propertyInfo);
                     if (!setMethod.IsStatic && CanAdd(propertyInfo, out jsonKey))
-                        result[jsonKey] = new KeyValuePair<Type, ReflectionUtils.SetDelegate>(propertyInfo.PropertyType, ReflectionUtils.GetSetMethod(propertyInfo));
+                        result[jsonKey] =
+ new KeyValuePair<Type, ReflectionUtils.SetDelegate>(propertyInfo.PropertyType, ReflectionUtils.GetSetMethod(propertyInfo));
                 }
             }
             foreach (FieldInfo fieldInfo in ReflectionUtils.GetFields(type))
             {
                 if (!fieldInfo.IsInitOnly && !fieldInfo.IsStatic && CanAdd(fieldInfo, out jsonKey))
-                    result[jsonKey] = new KeyValuePair<Type, ReflectionUtils.SetDelegate>(fieldInfo.FieldType, ReflectionUtils.GetSetMethod(fieldInfo));
+                    result[jsonKey] =
+ new KeyValuePair<Type, ReflectionUtils.SetDelegate>(fieldInfo.FieldType, ReflectionUtils.GetSetMethod(fieldInfo));
             }
             // todo implement sorting for DATACONTRACT.
             return result;
@@ -1583,7 +1749,8 @@ namespace AutoResxTranslator
             jsonKey = null;
             if (ReflectionUtils.GetAttribute(info, typeof(IgnoreDataMemberAttribute)) != null)
                 return false;
-            DataMemberAttribute dataMemberAttribute = (DataMemberAttribute)ReflectionUtils.GetAttribute(info, typeof(DataMemberAttribute));
+            DataMemberAttribute dataMemberAttribute =
+ (DataMemberAttribute)ReflectionUtils.GetAttribute(info, typeof(DataMemberAttribute));
             if (dataMemberAttribute == null)
                 return false;
             jsonKey = string.IsNullOrEmpty(dataMemberAttribute.Name) ? info.Name : dataMemberAttribute.Name;
@@ -1596,19 +1763,21 @@ namespace AutoResxTranslator
     namespace Reflection
     {
         // This class is meant to be copied into other libraries. So we want to exclude it from Code Analysis rules
- 	    // that might be in place in the target project.
+        // that might be in place in the target project.
         [GeneratedCode("reflection-utils", "1.0.0")]
 #if SIMPLE_JSON_REFLECTION_UTILS_PUBLIC
         public
 #else
         internal
 #endif
- class ReflectionUtils
+            class ReflectionUtils
         {
             private static readonly object[] EmptyObjects = new object[] { };
 
             public delegate object GetDelegate(object source);
+
             public delegate void SetDelegate(object source, object value);
+
             public delegate object ConstructorDelegate(params object[] args);
 
             public delegate TValue ThreadSafeDictionaryValueFactory<TKey, TValue>(TKey key);
@@ -1648,12 +1817,13 @@ namespace AutoResxTranslator
 #endif
                 foreach (Type implementedInterface in interfaces)
                 {
-                    if (IsTypeGeneric(implementedInterface) &&
-                        implementedInterface.GetGenericTypeDefinition() == typeof (IList<>))
+                    if (IsTypeGeneric(implementedInterface)
+                        && implementedInterface.GetGenericTypeDefinition() == typeof(IList<>))
                     {
                         return GetGenericTypeArguments(implementedInterface)[0];
                     }
                 }
+
                 return GetGenericTypeArguments(type)[0];
             }
 
@@ -1692,14 +1862,8 @@ namespace AutoResxTranslator
 
                 Type genericDefinition = type.GetGenericTypeDefinition();
 
-                return (genericDefinition == typeof(IList<>)
-                    || genericDefinition == typeof(ICollection<>)
-                    || genericDefinition == typeof(IEnumerable<>)
-#if SIMPLE_JSON_READONLY_COLLECTIONS
-                    || genericDefinition == typeof(IReadOnlyCollection<>)
-                    || genericDefinition == typeof(IReadOnlyList<>)
-#endif
-                    );
+                return genericDefinition == typeof(IList<>) || genericDefinition == typeof(ICollection<>)
+                                                            || genericDefinition == typeof(IEnumerable<>);
             }
 
             public static bool IsAssignableFrom(Type type1, Type type2)
@@ -1713,7 +1877,7 @@ namespace AutoResxTranslator
                 if (typeof(IDictionary<,>).GetTypeInfo().IsAssignableFrom(type.GetTypeInfo()))
                     return true;
 #else
-                if (typeof(System.Collections.IDictionary).IsAssignableFrom(type))
+                if (typeof(IDictionary).IsAssignableFrom(type))
                     return true;
 #endif
                 if (!GetTypeInfo(type).IsGenericType)
@@ -1730,7 +1894,12 @@ namespace AutoResxTranslator
 
             public static object ToNullableType(object obj, Type nullableType)
             {
-                return obj == null ? null : Convert.ChangeType(obj, Nullable.GetUnderlyingType(nullableType), CultureInfo.InvariantCulture);
+                return obj == null
+                           ? null
+                           : Convert.ChangeType(
+                               obj,
+                               Nullable.GetUnderlyingType(nullableType),
+                               CultureInfo.InvariantCulture);
             }
 
             public static bool IsValueType(Type type)
@@ -1756,7 +1925,9 @@ namespace AutoResxTranslator
                 {
                     ParameterInfo[] parameters = constructorInfo.GetParameters();
                     if (argsType.Length != parameters.Length)
+                    {
                         continue;
+                    }
 
                     i = 0;
                     matches = true;
@@ -1770,7 +1941,9 @@ namespace AutoResxTranslator
                     }
 
                     if (matches)
+                    {
                         return constructorInfo;
+                    }
                 }
 
                 return null;
@@ -1781,7 +1954,8 @@ namespace AutoResxTranslator
 #if SIMPLE_JSON_TYPEINFO
                 return type.GetRuntimeProperties();
 #else
-                return type.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static);
+                return type.GetProperties(
+                    BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static);
 #endif
             }
 
@@ -1790,7 +1964,8 @@ namespace AutoResxTranslator
 #if SIMPLE_JSON_TYPEINFO
                 return type.GetRuntimeFields();
 #else
-                return type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static);
+                return type.GetFields(
+                    BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static);
 #endif
             }
 
@@ -1832,7 +2007,7 @@ namespace AutoResxTranslator
 
             public static ConstructorDelegate GetConstructorByReflection(ConstructorInfo constructorInfo)
             {
-                return delegate(object[] args) { return constructorInfo.Invoke(args); };
+                return constructorInfo.Invoke;
             }
 
             public static ConstructorDelegate GetConstructorByReflection(Type type, params Type[] argsType)
@@ -1856,10 +2031,11 @@ namespace AutoResxTranslator
                     Expression paramCastExp = Expression.Convert(paramAccessorExp, paramType);
                     argsExp[i] = paramCastExp;
                 }
+
                 NewExpression newExp = Expression.New(constructorInfo, argsExp);
                 Expression<Func<object[], object>> lambda = Expression.Lambda<Func<object[], object>>(newExp, param);
                 Func<object[], object> compiledLambda = lambda.Compile();
-                return delegate(object[] args) { return compiledLambda(args); };
+                return args => compiledLambda(args);
             }
 
             public static ConstructorDelegate GetConstructorByExpression(Type type, params Type[] argsType)
@@ -1891,12 +2067,12 @@ namespace AutoResxTranslator
             public static GetDelegate GetGetMethodByReflection(PropertyInfo propertyInfo)
             {
                 MethodInfo methodInfo = GetGetterMethodInfo(propertyInfo);
-                return delegate(object source) { return methodInfo.Invoke(source, EmptyObjects); };
+                return source => methodInfo.Invoke(source, EmptyObjects);
             }
 
             public static GetDelegate GetGetMethodByReflection(FieldInfo fieldInfo)
             {
-                return delegate(object source) { return fieldInfo.GetValue(source); };
+                return fieldInfo.GetValue;
             }
 
 #if !SIMPLE_JSON_NO_LINQ_EXPRESSION
@@ -1905,17 +2081,24 @@ namespace AutoResxTranslator
             {
                 MethodInfo getMethodInfo = GetGetterMethodInfo(propertyInfo);
                 ParameterExpression instance = Expression.Parameter(typeof(object), "instance");
-                UnaryExpression instanceCast = (!IsValueType(propertyInfo.DeclaringType)) ? Expression.TypeAs(instance, propertyInfo.DeclaringType) : Expression.Convert(instance, propertyInfo.DeclaringType);
-                Func<object, object> compiled = Expression.Lambda<Func<object, object>>(Expression.TypeAs(Expression.Call(instanceCast, getMethodInfo), typeof(object)), instance).Compile();
-                return delegate(object source) { return compiled(source); };
+                UnaryExpression instanceCast = !IsValueType(propertyInfo.DeclaringType)
+                                                   ? Expression.TypeAs(instance, propertyInfo.DeclaringType)
+                                                   : Expression.Convert(instance, propertyInfo.DeclaringType);
+                Func<object, object> compiled = Expression.Lambda<Func<object, object>>(
+                    Expression.TypeAs(Expression.Call(instanceCast, getMethodInfo), typeof(object)),
+                    instance).Compile();
+                return source => compiled(source);
             }
 
             public static GetDelegate GetGetMethodByExpression(FieldInfo fieldInfo)
             {
                 ParameterExpression instance = Expression.Parameter(typeof(object), "instance");
-                MemberExpression member = Expression.Field(Expression.Convert(instance, fieldInfo.DeclaringType), fieldInfo);
-                GetDelegate compiled = Expression.Lambda<GetDelegate>(Expression.Convert(member, typeof(object)), instance).Compile();
-                return delegate(object source) { return compiled(source); };
+                MemberExpression member = Expression.Field(
+                    Expression.Convert(instance, fieldInfo.DeclaringType),
+                    fieldInfo);
+                GetDelegate compiled = Expression
+                    .Lambda<GetDelegate>(Expression.Convert(member, typeof(object)), instance).Compile();
+                return source => compiled(source);
             }
 
 #endif
@@ -1946,7 +2129,7 @@ namespace AutoResxTranslator
 
             public static SetDelegate GetSetMethodByReflection(FieldInfo fieldInfo)
             {
-                return delegate(object source, object value) { fieldInfo.SetValue(source, value); };
+                return fieldInfo.SetValue;
             }
 
 #if !SIMPLE_JSON_NO_LINQ_EXPRESSION
@@ -1956,9 +2139,15 @@ namespace AutoResxTranslator
                 MethodInfo setMethodInfo = GetSetterMethodInfo(propertyInfo);
                 ParameterExpression instance = Expression.Parameter(typeof(object), "instance");
                 ParameterExpression value = Expression.Parameter(typeof(object), "value");
-                UnaryExpression instanceCast = (!IsValueType(propertyInfo.DeclaringType)) ? Expression.TypeAs(instance, propertyInfo.DeclaringType) : Expression.Convert(instance, propertyInfo.DeclaringType);
-                UnaryExpression valueCast = (!IsValueType(propertyInfo.PropertyType)) ? Expression.TypeAs(value, propertyInfo.PropertyType) : Expression.Convert(value, propertyInfo.PropertyType);
-                Action<object, object> compiled = Expression.Lambda<Action<object, object>>(Expression.Call(instanceCast, setMethodInfo, valueCast), new ParameterExpression[] { instance, value }).Compile();
+                UnaryExpression instanceCast = !IsValueType(propertyInfo.DeclaringType)
+                                                   ? Expression.TypeAs(instance, propertyInfo.DeclaringType)
+                                                   : Expression.Convert(instance, propertyInfo.DeclaringType);
+                UnaryExpression valueCast = !IsValueType(propertyInfo.PropertyType)
+                                                ? Expression.TypeAs(value, propertyInfo.PropertyType)
+                                                : Expression.Convert(value, propertyInfo.PropertyType);
+                Action<object, object> compiled = Expression.Lambda<Action<object, object>>(
+                    Expression.Call(instanceCast, setMethodInfo, valueCast),
+                    new ParameterExpression[] { instance, value }).Compile();
                 return delegate(object source, object val) { compiled(source, val); };
             }
 
@@ -1967,7 +2156,11 @@ namespace AutoResxTranslator
                 ParameterExpression instance = Expression.Parameter(typeof(object), "instance");
                 ParameterExpression value = Expression.Parameter(typeof(object), "value");
                 Action<object, object> compiled = Expression.Lambda<Action<object, object>>(
-                    Assign(Expression.Field(Expression.Convert(instance, fieldInfo.DeclaringType), fieldInfo), Expression.Convert(value, fieldInfo.FieldType)), instance, value).Compile();
+                    Assign(
+                        Expression.Field(Expression.Convert(instance, fieldInfo.DeclaringType), fieldInfo),
+                        Expression.Convert(value, fieldInfo.FieldType)),
+                    instance,
+                    value).Compile();
                 return delegate(object source, object val) { compiled(source, val); };
             }
 
@@ -1986,7 +2179,7 @@ namespace AutoResxTranslator
             {
                 public static T Assign(ref T left, T right)
                 {
-                    return (left = right);
+                    return left = right;
                 }
             }
 
@@ -1995,44 +2188,48 @@ namespace AutoResxTranslator
             public sealed class ThreadSafeDictionary<TKey, TValue> : IDictionary<TKey, TValue>
             {
                 private readonly object _lock = new object();
+
                 private readonly ThreadSafeDictionaryValueFactory<TKey, TValue> _valueFactory;
+
                 private Dictionary<TKey, TValue> _dictionary;
 
                 public ThreadSafeDictionary(ThreadSafeDictionaryValueFactory<TKey, TValue> valueFactory)
                 {
-                    _valueFactory = valueFactory;
+                    this._valueFactory = valueFactory;
                 }
 
                 private TValue Get(TKey key)
                 {
-                    if (_dictionary == null)
-                        return AddValue(key);
-                    TValue value;
-                    if (!_dictionary.TryGetValue(key, out value))
-                        return AddValue(key);
-                    return value;
+                    if (this._dictionary == null)
+                    {
+                        return this.AddValue(key);
+                    }
+
+                    return !this._dictionary.TryGetValue(key, out var value) ? this.AddValue(key) : value;
                 }
 
                 private TValue AddValue(TKey key)
                 {
-                    TValue value = _valueFactory(key);
-                    lock (_lock)
+                    TValue value = this._valueFactory(key);
+                    lock (this._lock)
                     {
-                        if (_dictionary == null)
+                        if (this._dictionary == null)
                         {
-                            _dictionary = new Dictionary<TKey, TValue>();
-                            _dictionary[key] = value;
+                            this._dictionary = new Dictionary<TKey, TValue> { [key] = value };
                         }
                         else
                         {
-                            TValue val;
-                            if (_dictionary.TryGetValue(key, out val))
+                            if (this._dictionary.TryGetValue(key, out var val))
+                            {
                                 return val;
-                            Dictionary<TKey, TValue> dict = new Dictionary<TKey, TValue>(_dictionary);
-                            dict[key] = value;
-                            _dictionary = dict;
+                            }
+
+                            Dictionary<TKey, TValue> dict =
+                                new Dictionary<TKey, TValue>(this._dictionary) { [key] = value };
+                            this._dictionary = dict;
                         }
                     }
+
                     return value;
                 }
 
@@ -2043,13 +2240,10 @@ namespace AutoResxTranslator
 
                 public bool ContainsKey(TKey key)
                 {
-                    return _dictionary.ContainsKey(key);
+                    return this._dictionary.ContainsKey(key);
                 }
 
-                public ICollection<TKey> Keys
-                {
-                    get { return _dictionary.Keys; }
-                }
+                public ICollection<TKey> Keys => this._dictionary.Keys;
 
                 public bool Remove(TKey key)
                 {
@@ -2062,15 +2256,12 @@ namespace AutoResxTranslator
                     return true;
                 }
 
-                public ICollection<TValue> Values
-                {
-                    get { return _dictionary.Values; }
-                }
+                public ICollection<TValue> Values => this._dictionary.Values;
 
                 public TValue this[TKey key]
                 {
-                    get { return Get(key); }
-                    set { throw new NotImplementedException(); }
+                    get => this.Get(key);
+                    set => throw new NotImplementedException();
                 }
 
                 public void Add(KeyValuePair<TKey, TValue> item)
@@ -2093,15 +2284,9 @@ namespace AutoResxTranslator
                     throw new NotImplementedException();
                 }
 
-                public int Count
-                {
-                    get { return _dictionary.Count; }
-                }
+                public int Count => this._dictionary.Count;
 
-                public bool IsReadOnly
-                {
-                    get { throw new NotImplementedException(); }
-                }
+                public bool IsReadOnly => throw new NotImplementedException();
 
                 public bool Remove(KeyValuePair<TKey, TValue> item)
                 {
@@ -2110,12 +2295,12 @@ namespace AutoResxTranslator
 
                 public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
                 {
-                    return _dictionary.GetEnumerator();
+                    return this._dictionary.GetEnumerator();
                 }
 
-                System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+                IEnumerator IEnumerable.GetEnumerator()
                 {
-                    return _dictionary.GetEnumerator();
+                    return this._dictionary.GetEnumerator();
                 }
             }
 
