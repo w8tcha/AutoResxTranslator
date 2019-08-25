@@ -604,6 +604,7 @@
             this.webBrowser.Location = new System.Drawing.Point(3, 3);
             this.webBrowser.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowser.Name = "webBrowser";
+            this.webBrowser.ScriptErrorsSuppressed = true;
             this.webBrowser.Size = new System.Drawing.Size(636, 332);
             this.webBrowser.TabIndex = 0;
             this.webBrowser.Url = new System.Uri("https://translate.google.com/", System.UriKind.Absolute);
