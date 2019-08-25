@@ -6,6 +6,9 @@
     using System.Data.OleDb;
     using System.IO;
 
+    /// <summary>
+    /// The resx excel.
+    /// </summary>
     public class ResxExcel
     {
         const string excelConnection =
@@ -40,25 +43,36 @@
                         for (var j = 0; j < schema.Rows.Count; j++)
                         {
                             var key = schema.Rows[j]["TABLE_NAME"].ToString();
+
                             if (key.EndsWith("'"))
+                            {
                                 key = key.Remove(key.Length - 1, 1);
+                            }
+
                             if (key.StartsWith("'"))
+                            {
                                 key = key.Remove(0, 1);
+                            }
+
                             if (key.EndsWith("$"))
+                            {
                                 key = key.Remove(key.Length - 1, 1);
+                            }
+
                             result.SheetNames[j] = key;
                         }
                     }
 
                     if (result.SheetNames.Length == 0)
+                    {
                         return result;
-
+                    }
 
                     using (var cmd = objConn.CreateCommand())
                     using (var adapter = new OleDbDataAdapter(cmd))
                     using (var ds = new DataSet())
                     {
-                        cmd.CommandText = "SELECT Top 1 * FROM [" + result.SheetNames[0] + "$]";
+                        cmd.CommandText = $"SELECT Top 1 * FROM [{result.SheetNames[0]}$]";
 
                         adapter.Fill(ds);
                         var columns = new List<string>();
@@ -116,11 +130,19 @@
                 {
                     var key = row["TABLE_NAME"].ToString();
                     if (key.EndsWith("'"))
+                    {
                         key = key.Remove(key.Length - 1, 1);
+                    }
+
                     if (key.StartsWith("'"))
+                    {
                         key = key.Remove(0, 1);
+                    }
+
                     if (key.EndsWith("$"))
+                    {
                         key = key.Remove(key.Length - 1, 1);
+                    }
 
                     excelSheets[i] = key;
                     i++;
@@ -157,7 +179,7 @@
             using (var adapter = new OleDbDataAdapter(cmd))
             using (var ds = new DataSet())
             {
-                cmd.CommandText = "SELECT Top 1 * FROM [" + sheetName + "$]";
+                cmd.CommandText = $"SELECT Top 1 * FROM [{sheetName}$]";
 
                 adapter.Fill(ds);
                 var columns = new List<string>();
@@ -186,7 +208,7 @@
             using (var adapter = new OleDbDataAdapter(cmd))
             using (var dt = new DataTable())
             {
-                cmd.CommandText = "SELECT * FROM [" + sheetName + "$]";
+                cmd.CommandText = $"SELECT * FROM [{sheetName}$]";
 
                 adapter.Fill(dt);
                 var result = new List<KeyValuePair<string, string>>();

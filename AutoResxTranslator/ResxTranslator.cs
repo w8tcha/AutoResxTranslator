@@ -21,9 +21,15 @@ namespace AutoResxTranslator
             foreach (XmlNode node in root.ChildNodes)
             {
                 if (node.NodeType != XmlNodeType.Element)
+                {
                     continue;
+                }
+
                 if (node.Name != "data")
+                {
                     continue;
+                }
+
                 dataList.Add(node);
             }
 
@@ -59,9 +65,14 @@ namespace AutoResxTranslator
             {
                 var node = dataNode.ChildNodes[i];
                 if (node.NodeType != XmlNodeType.Element)
+                {
                     continue;
+                }
+
                 if (node.Name == "value")
+                {
                     return node;
+                }
             }
 
             return null;
@@ -84,9 +95,7 @@ namespace AutoResxTranslator
 
         public static string GetDataKeyName(XmlNode dataNode)
         {
-            if (dataNode == null)
-                return string.Empty;
-            return dataNode.Attributes["name"].Value;
+            return dataNode == null ? string.Empty : dataNode.Attributes["name"].Value;
         }
 
         public static string GetDataValueNodeContent(XmlNode dataNode)
@@ -95,13 +104,17 @@ namespace AutoResxTranslator
             {
                 var node = dataNode.ChildNodes[i];
                 if (node.NodeType != XmlNodeType.Element)
+                {
                     continue;
+                }
+
                 if (node.Name == "value")
+                {
                     return node.InnerText;
+                }
             }
 
             return null;
         }
-
     }
 }

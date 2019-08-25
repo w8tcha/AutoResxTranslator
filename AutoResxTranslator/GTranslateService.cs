@@ -16,6 +16,9 @@ namespace AutoResxTranslator
 
     using Newtonsoft.Json;
 
+    /// <summary>
+    /// The Google translate service.
+    /// </summary>
     public class GTranslateService
     {
         private const string RequestUserAgent =

@@ -1,15 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Windows.Forms;
-using System.Xml;
-using AutoResxTranslator.Definitions;
-
-/* 
+﻿/* 
  * AutoResxTranslator
  * by Salar Khalilzadeh
  * 
@@ -19,6 +8,17 @@ using AutoResxTranslator.Definitions;
 
 namespace AutoResxTranslator
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.IO;
+    using System.Linq;
+    using System.Text;
+    using System.Text.RegularExpressions;
+    using System.Windows.Forms;
+    using System.Xml;
+    using AutoResxTranslator.Definitions;
+
     public partial class frmMain : Form
     {
         public frmMain()
@@ -441,7 +441,7 @@ namespace AutoResxTranslator
                 barResxProgress.Minimum = 0;
                 barResxProgress.Maximum = max;
                 barResxProgress.Value = pos;
-                lblResxTranslateStatus.Text = $"Processing {max:00}/{pos:00}, " + status;
+                lblResxTranslateStatus.Text = $"{$"Processing {max:00}/{pos:00}, "}{status}";
             }
         }
 

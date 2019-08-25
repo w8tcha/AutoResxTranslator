@@ -10,7 +10,7 @@
     using Newtonsoft.Json;
 
     /// <summary>
-    /// Translation service using Microsoft Cogntive service.
+    /// Translation service using Microsoft Cognitive service.
     /// 
     /// ref: https://azure.microsoft.com/en-in/services/cognitive-services/translator-text-api/
     /// </summary>
@@ -30,7 +30,7 @@
                 fromLanguage = null;
             }
 
-            var route = "/translate?api-version=3.0&to=" + toLanguage + "&from=" + fromLanguage;
+            var route = $"/translate?api-version=3.0&to={toLanguage}&from={fromLanguage}";
 
             try
             {
@@ -72,7 +72,7 @@
                     {
                         return new ResultHolder<string>(
                             false,
-                            "Translation failed! Exception: " + response.ReasonPhrase);
+                            $"Translation failed! Exception: {response.ReasonPhrase}");
                     }
                 }
 
@@ -80,7 +80,7 @@
             }
             catch (Exception e)
             {
-                return new ResultHolder<string>(false, "Translation failed! Exception: " + e.Message);
+                return new ResultHolder<string>(false, $"Translation failed! Exception: {e.Message}");
             }
         }
     }
