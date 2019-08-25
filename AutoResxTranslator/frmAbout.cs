@@ -1,7 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.Reflection;
-using System.Windows.Forms;
+﻿
 
 /* 
  * AutoResxTranslator
@@ -12,44 +9,53 @@ using System.Windows.Forms;
  */
 namespace AutoResxTranslator
 {
-	public partial class frmAbout : Form
-	{
-		public frmAbout()
-		{
-			InitializeComponent();
-		}
+    using System;
+    using System.Diagnostics;
+    using System.Reflection;
+    using System.Windows.Forms;
 
-		private void btnClose_Click(object sender, EventArgs e)
-		{
-			Close();
-		}
+    public partial class frmAbout : Form
+    {
+        public frmAbout()
+        {
+            this.InitializeComponent();
+        }
 
-		private void frmAbout_Load(object sender, EventArgs e)
-		{
-			lblVersion.Text = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-			this.Icon = Application.OpenForms[0].Icon;
-		}
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
 
-		private void lnkUpdate_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-		{
-			var start = new ProcessStartInfo(lnkUpdate.Text);
-			try
-			{
-				start.UseShellExecute = true;
-				Process.Start(start);
-			}
-			catch { }
-		}
+        private void frmAbout_Load(object sender, EventArgs e)
+        {
+            this.lblVersion.Text = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            this.Icon = Application.OpenForms[0].Icon;
+        }
 
-		private void lnkWebSite_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-		{
-			var start = new ProcessStartInfo(lnkWebSite.Text);
-			try
-			{
-				start.UseShellExecute = true;
-				Process.Start(start);
-			}
-			catch { }
-		}
-	}
+        private void lnkUpdate_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            var start = new ProcessStartInfo(this.lnkUpdate.Text);
+            try
+            {
+                start.UseShellExecute = true;
+                Process.Start(start);
+            }
+            catch
+            {
+            }
+        }
+
+        private void lnkWebSite_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            var start = new ProcessStartInfo(this.lnkWebSite.Text);
+            try
+            {
+                start.UseShellExecute = true;
+                Process.Start(start);
+            }
+            catch
+            {
+            }
+        }
+    }
 }

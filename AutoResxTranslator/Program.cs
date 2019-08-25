@@ -1,7 +1,4 @@
-﻿using System;
-using System.Windows.Forms;
-
-/* 
+﻿/* 
  * AutoResxTranslator
  * by Salar Khalilzadeh
  * 
@@ -10,17 +7,23 @@ using System.Windows.Forms;
  */
 namespace AutoResxTranslator
 {
-	static class Program
-	{
-		/// <summary>
-		/// The main entry point for the application.
-		/// </summary>
-		[STAThread]
-		static void Main()
-		{
-			Application.EnableVisualStyles();
-			Application.SetCompatibleTextRenderingDefault(false);
-			Application.Run(new frmMain());
-		}
-	}
+    using System;
+    using System.Windows.Forms;
+
+    /// <summary>
+    /// The program.
+    /// </summary>
+    internal static class Program
+    {
+        /// <summary>
+        /// The main entry point for the application.
+        /// </summary>
+        [STAThread]
+        internal static void Main()
+        {
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new frmMain());
+        }
+    }
 }
